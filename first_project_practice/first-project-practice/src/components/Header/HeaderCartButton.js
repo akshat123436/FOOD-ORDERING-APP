@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import CartIcon from "./CartIcon";
 import styles from "./HeaderCartButton.module.css";
-const HeaderCartButton = () => {
+const HeaderCartButton = (props) => {
   const [count, setCount] = useState(0);
   return (
-    <div className={`${styles.button} ${styles.bump}`}>
+    <div className={`${styles.button} ${styles.bump}`} onClick={props.onShow}>
       <span>
         <CartIcon className={styles.icon}></CartIcon>
       </span>
