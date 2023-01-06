@@ -6,8 +6,13 @@ import Modal from "../UI/Modal";
 const Cart = (props) => {
   const cardCtxt = useContext(cardContext);
   const hasItems = cardCtxt.items.length > 0;
-  const onAddHandler = () => {};
-  const onRemoveHandler = () => {};
+  const onAddHandler = (item) => {
+    cardCtxt.addCartItem({ ...item, amount: 1 });
+  };
+
+  const onRemoveHandler = (id) => {
+    cardCtxt.removeCartItem(id);
+  };
   const cartItmes = (
     <ul className={styles["cart-items"]}>
       {cardCtxt.items.map((items) => (
@@ -15,8 +20,8 @@ const Cart = (props) => {
           name={items.name}
           price={items.price}
           amount={items.amount}
-          onAdd={onAddHandler}
-          onRemove={onRemoveHandler}
+          onAdd={onAddHandler.bind(null, items)}
+          onRemove={onRemoveHandler.bind(null, items.id)}
         ></CartItem>
       ))}
     </ul>
@@ -27,7 +32,7 @@ const Cart = (props) => {
       {cartItmes}
       <div className={styles.total}>
         <span>Total Amount : </span>
-        <span>{cardCtxt.totalAmount}</span>
+        <span>{cardCtxt.totalAmount.toFixed(2)}</span>
       </div>
       <div className={styles.actions}>
         <button className={styles["button--alt"]} onClick={props.onClose}>
