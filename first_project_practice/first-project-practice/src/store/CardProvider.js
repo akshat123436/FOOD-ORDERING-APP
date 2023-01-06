@@ -8,7 +8,22 @@ const defaultCartState = {
 
 const updateCartState = (state, action) => {
   if (action.type === "ADD") {
-    const updatedItems = state.items.concat(action.item);
+    const existingCartItemIndex = state.items.findIndex(
+      (item) => item.id === action.item.id
+    );
+    const existingCartItem = state.items[existingCartItemIndex];
+    let updatedItems = [...state.items];
+    if (existingCartItem) {
+      const updatedItem = {
+        ...existingCartItem,
+        amount: existingCartItem.amount + action.item.amount,
+      };
+
+      updatedItems[existingCartItemIndex] = updatedItem;
+    } else {
+      updatedItems.push(action.item);
+    }
+
     const updatedAmount =
       state.totalAmount + action.item.amount * action.item.price;
     // console.log(updatedAmount);

@@ -1,10 +1,23 @@
+import { useContext } from "react";
 import styles from "./Cart.module.css";
+import cardContext from "../../store/card-context";
+import CartItem from "./CartItem";
 import Modal from "../UI/Modal";
 const Cart = (props) => {
+  const cardCtxt = useContext(cardContext);
+  const hasItems = cardCtxt.items.length > 0;
+  const onAddHandler = () => {};
+  const onRemoveHandler = () => {};
   const cartItmes = (
     <ul className={styles["cart-items"]}>
-      {[{ id: "1", name: "shushi" }].map((items) => (
-        <li>{items.name}</li>
+      {cardCtxt.items.map((items) => (
+        <CartItem
+          name={items.name}
+          price={items.price}
+          amount={items.amount}
+          onAdd={onAddHandler}
+          onRemove={onRemoveHandler}
+        ></CartItem>
       ))}
     </ul>
   );
@@ -14,13 +27,13 @@ const Cart = (props) => {
       {cartItmes}
       <div className={styles.total}>
         <span>Total Amount : </span>
-        <span>35</span>
+        <span>{cardCtxt.totalAmount}</span>
       </div>
       <div className={styles.actions}>
         <button className={styles["button--alt"]} onClick={props.onClose}>
           Close
         </button>
-        <button className={styles.button}>Order</button>
+        {hasItems && <button className={styles.button}>Order</button>}
       </div>
     </Modal>
   );
