@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import CartIcon from "./CartIcon";
 import styles from "./HeaderCartButton.module.css";
+import cardContext from "../../store/card-context";
 const HeaderCartButton = (props) => {
-  const [count, setCount] = useState(0);
+  const cartContext = useContext(cardContext);
+  const noOfCartItems = cartContext.items.reduce((currentVal, item) => {
+    return currentVal + item.amount;
+  }, 0);
   return (
     <div className={`${styles.button} ${styles.bump}`} onClick={props.onShow}>
       <span>
         <CartIcon className={styles.icon}></CartIcon>
       </span>
       <span>Your cart</span>
-      <span className={styles.badge}>{count}</span>
+      <span className={styles.badge}>{noOfCartItems}</span>
     </div>
   );
 };
