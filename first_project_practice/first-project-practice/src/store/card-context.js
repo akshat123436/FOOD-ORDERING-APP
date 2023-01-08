@@ -4,6 +4,7 @@ const cardContext = React.createContext({
   totalAmount: 0,
   addCartItem: (props) => {},
   removeCartItem: (props) => {},
+  clearCart: () => {},
 });
 
 export default cardContext;
